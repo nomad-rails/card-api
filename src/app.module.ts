@@ -6,6 +6,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ApiModule } from './api/api.module';
 import { JwtModule } from './jwt/jwt.module';
 import { CryptoModule } from './crypto/crypto.module';
+import { BridgecardModule } from './bridgecard/bridgecard.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CryptoModule } from './crypto/crypto.module';
     PrismaModule,
     JwtModule,
     CryptoModule,
+    BridgecardModule,
   ],
   controllers: [AppController],
   providers: [AppService],

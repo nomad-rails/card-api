@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcrypt';
+import AES256 from 'aes-everywhere';
 import { promisify } from 'node:util';
 import {
   createCipheriv,
@@ -33,6 +34,23 @@ export class CryptoService {
           throw new InternalServerErrorException('Password is required');
         }
         return await bcrypt.compare(password, hash);
+      },
+    };
+  }
+
+  get aes256() {
+    return {
+      encrypt: (data: string, password?: string): string => {
+        if (!data) {
+          throw new InternalServerErrorException('Data is required');
+        }
+        return AES256.encrypt(data, password ?? this.key);
+      },
+      decrypt: (data: string, password?: string): string => {
+        if (!data) {
+          throw new InternalServerErrorException('Data is required');
+        }
+        return AES256.decrypt(data, password ?? this.key);
       },
     };
   }
