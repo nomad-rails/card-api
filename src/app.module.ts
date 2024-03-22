@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { ApiModule } from './api/api.module';
 import { JwtModule } from './jwt/jwt.module';
+import { CryptoModule } from './crypto/crypto.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { JwtModule } from './jwt/jwt.module';
     ApiModule,
     PrismaModule,
     JwtModule,
+    CryptoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
