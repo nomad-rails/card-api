@@ -26,6 +26,7 @@ model User {
   updateAt DateTime @updatedAt
   address  String   @unique
   holderId String?  @unique
+  verified Boolean  @default(false)
 
   card     Card?
   sessions Session[]

@@ -8,6 +8,7 @@ CREATE TABLE "users" (
     "updateAt" TIMESTAMP(3) NOT NULL,
     "address" TEXT NOT NULL,
     "holderId" TEXT,
+    "verified" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
