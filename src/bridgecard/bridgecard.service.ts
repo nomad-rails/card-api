@@ -9,31 +9,33 @@ export class BridgecardService {
   constructor(private readonly cfg: ConfigService<Config>) {}
 
   get http(): AxiosInstance {
+    const DOMAIN = `https://issuecards.api.bridgecard-issuing-app.com`;
     const BRIDGECARD_BASE_URL = {
-      development: `https://issuecards.api.bridgecard.co/v1/issuing/sandbox`,
-      production: `https://issuecards.api.bridgecard.co/v1/issuing`,
+      development: `${DOMAIN}/v1/issuing/sandbox`,
+      production: `${DOMAIN}/v1/issuing`,
     };
     const baseURL: string = BRIDGECARD_BASE_URL[this.nodeEnv];
     return axios.create({
       baseURL,
       headers: {
         'Content-Type': 'application/json',
-        token: `Bearer ${this.cfg.get('BRIDGECARD_API_KEY')}`,
+        token: `Bearer ${this.cfg.get('BRIDGECARD_AT')}`,
       },
     });
   }
 
   get http2(): AxiosInstance {
+    const DOMAIN = `https://issuecards-api-bridgecard-issuing-app-com-app-ee6bd7a3c80e.relay.evervault.com`;
     const BRIDGECARD_BASE_URL = {
-      development: `https://issuecards-api-bridgecard-co.relay.evervault.com/v1/issuing/sandbox`,
-      production: `https://issuecards-api-bridgecard-co.relay.evervault.com/v1/issuing`,
+      development: `${DOMAIN}/v1/issuing/sandbox`,
+      production: `${DOMAIN}/v1/issuing`,
     };
     const baseURL: string = BRIDGECARD_BASE_URL[this.nodeEnv];
     return axios.create({
       baseURL,
       headers: {
         'Content-Type': 'application/json',
-        token: `Bearer ${this.cfg.get('BRIDGECARD_API_KEY')}`,
+        token: `Bearer ${this.cfg.get('BRIDGECARD_AT')}`,
       },
     });
   }
