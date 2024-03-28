@@ -11,9 +11,9 @@ import {
   PassportStrategy,
 } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PrismaService } from '$/prisma/prisma.service';
-import { CryptoService } from '$/crypto/crypto.service';
-import { UserEntity } from '$lib/common/entities/user.entity';
+import { PrismaService } from '@/prisma/prisma.service';
+import { CryptoService } from '@/crypto/crypto.service';
+import { UserEntity } from '@lib/common/entities/user.entity';
 
 interface Payload {
   sub: string;

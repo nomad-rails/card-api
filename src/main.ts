@@ -3,11 +3,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { TransformInterceptor } from '$lib/rest/transform.interceptor';
-import { HttpExceptionFilter } from '$lib/rest/http-exception.filter';
+import { TransformInterceptor } from '@lib/rest/transform.interceptor';
+import { HttpExceptionFilter } from '@lib/rest/http-exception.filter';
 
 // Merge the console object with the consola object
 Object.assign(console, consola);
+
+export let nest: INestApplication;
 
 async function bootstrapSwagger(
   app: INestApplication,
@@ -25,7 +27,8 @@ async function bootstrapSwagger(
       in: 'header',
       scheme: 'bearer',
     })
-    .addTag('Main', 'Main operations.')
+    .addTag('Main', 'Main operations')
+    .addTag('Auth', 'Authentication operations')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup(path, app, document, {
@@ -37,6 +40,7 @@ async function bootstrapSwagger(
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  nest = app;
 
   app.enableVersioning();
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
