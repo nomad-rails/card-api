@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
+import { RegisterCardholderDto } from '@lib/common/dtos/cardholder/register-cardholder.dto';
 
 @Injectable()
 export class BridgecardService {
@@ -40,7 +41,7 @@ export class BridgecardService {
     });
   }
 
-  async registerCardHolder(dto: RegisterCardHolderDto) {
+  async registerCardHolder(dto: RegisterCardholderDto) {
     return this.http.post<RegisterCardHolderResponse>(
       '/cardholder/register_cardholder',
       dto,
