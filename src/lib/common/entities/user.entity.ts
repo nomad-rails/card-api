@@ -18,6 +18,9 @@ export class UserEntity {
   holderId: string;
 
   @ApiProperty()
+  cardId: string;
+
+  @ApiProperty()
   verified: boolean;
 
   constructor(partial: Partial<UserEntity>) {

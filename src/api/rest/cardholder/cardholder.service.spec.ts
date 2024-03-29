@@ -21,6 +21,7 @@ describe('CardholderService', () => {
     updatedAt: new Date(),
     address: 'HTpTS4o4o3THQJ4QSejz9po47LGBauQVhwVAYUaLHmYi',
     holderId: null,
+    cardId: null,
     verified: false,
   });
 

@@ -26,24 +26,12 @@ model User {
   updateAt DateTime @updatedAt
   address  String   @unique
   holderId String?  @unique
+  cardId   String?  @unique
   verified Boolean  @default(false)
 
-  card     Card?
   sessions Session[]
 
   @@map("users")
-}
-
-model Card {
-  id       String   @id @default(uuid())
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  userId   String   @unique
-  cardId   String?  @unique
-
-  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
-
-  @@map("cards")
 }
 
 model Session {
