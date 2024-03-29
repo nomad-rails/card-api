@@ -3,9 +3,10 @@ import { JwtAuthGuard } from '@lib/rest/auth.guard';
 import { MainModule } from './main/main.module';
 import { AuthModule } from './auth/auth.module';
 import { CardholderModule } from './cardholder/cardholder.module';
+import { CardModule } from './card/card.module';
 
 @Module({
-  imports: [MainModule, AuthModule, CardholderModule],
+  imports: [MainModule, AuthModule, CardholderModule, CardModule],
   providers: [JwtAuthGuard],
 })
 export class RestModule {}

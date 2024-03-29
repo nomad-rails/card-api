@@ -344,21 +344,15 @@ type GetTransactionOTPResponse = BridgeCardApiSuccessResponse<{
   otp: string;
 }>;
 
-type FundNairaCardDto = {
+type NairaFundingDto = {
   card_id: string;
-  amount: string;
+  amount: number;
   transaction_reference: string;
 };
 
 type FundNairaCardResponse = BridgeCardApiSuccessResponse<{
   transaction_reference: string;
 }>;
-
-type UnloadNairaCardDto = {
-  card_id: string;
-  amount: string;
-  transaction_reference: string;
-};
 
 type UnloadNairaCardResponse = BridgeCardApiSuccessResponse<{
   transaction_reference: string;

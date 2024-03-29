@@ -83,14 +83,14 @@ export class BridgecardService {
     );
   }
 
-  async fundNairaCard(dto: FundNairaCardDto) {
+  async fundNairaCard(dto: NairaFundingDto) {
     return this.http.post<FundNairaCardResponse>(
       '/naira_cards/fund_naira_card',
       dto,
     );
   }
 
-  async unloadNairaCard(dto: UnloadNairaCardDto) {
+  async unloadNairaCard(dto: NairaFundingDto) {
     return this.http.post<UnloadNairaCardResponse>(
       '/naira_cards/unload_naira_card',
       dto,
