@@ -15,5 +15,8 @@ type Config = {
   SIWS_VERSION: string;
   SIWS_CHAIN_ID: string;
   RPC_URL: string;
+  USDC_MINT: string;
   SEABED_PROGRAM_ID: string;
+  DEBIT_AUTHORITY: string;
+  DEBIT_DESTINATION: string;
 };

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Connection, PublicKey } from '@solana/web3.js';
+import { Connection, Keypair, PublicKey } from '@solana/web3.js';
 import {
   InstructionFactoryImpl,
   PreAuthorizedDebitReadClientImpl,
@@ -19,6 +19,15 @@ export class SeabedLabsService {
 
   get programId() {
     return new PublicKey(this.cfg.getOrThrow('SEABED_PROGRAM_ID'));
+  }
+
+  get debit() {
+    return {
+      authority: Keypair.fromSecretKey(
+        new Uint8Array(JSON.parse(this.cfg.getOrThrow('DEBIT_AUTHORITY'))),
+      ),
+      destination: new PublicKey(this.cfg.getOrThrow('DEBIT_DESTINATION')),
+    };
   }
 
   get readClient() {
