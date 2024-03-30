@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { CardholderModule } from './cardholder/cardholder.module';
 import { CardModule } from './card/card.module';
 import { WebhookModule } from './webhook/webhook.module';
+import { SeabedModule } from './seabed/seabed.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { WebhookModule } from './webhook/webhook.module';
     CardholderModule,
     CardModule,
     WebhookModule,
+    SeabedModule,
   ],
   providers: [JwtAuthGuard],
 })

@@ -30,6 +30,7 @@
     "@nestjs/swagger": "^7.3.0",
     "@prisma/client": "^5.11.0",
     "@seabed-labs/pre-authorized-debit": "^1.1.0",
+    "@solana/spl-token": "^0.4.3",
     "@solana/web3.js": "^1.91.2",
     "@web3auth/sign-in-with-solana": "^3.0.0",
     "aes-everywhere": "^1.0.0",
