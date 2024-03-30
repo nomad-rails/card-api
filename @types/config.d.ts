@@ -14,4 +14,6 @@ type Config = {
   SIWS_ORIGIN: string;
   SIWS_VERSION: string;
   SIWS_CHAIN_ID: string;
+  RPC_URL: string;
+  SEABED_PROGRAM_ID: string;
 };

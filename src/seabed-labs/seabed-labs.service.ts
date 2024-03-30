@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Cluster, clusterApiUrl, Connection } from '@solana/web3.js';
+import { Connection, PublicKey } from '@solana/web3.js';
 import {
   InstructionFactoryImpl,
   PreAuthorizedDebitReadClientImpl,
@@ -11,29 +11,28 @@ import {
 export class SeabedLabsService {
   constructor(private readonly cfg: ConfigService<Config>) {}
 
-  get isProd() {
-    return this.cfg.get('NODE_ENV') === 'production';
-  }
-
-  get net() {
-    return this.isProd ? 'mainnet' : 'devnet';
-  }
-
   get connection() {
-    let cluster: Cluster = 'devnet';
-    if (this.isProd) cluster = 'mainnet-beta';
-    return new Connection(clusterApiUrl(cluster));
+    return new Connection(this.cfg.getOrThrow('RPC_URL'), {
+      commitment: 'confirmed',
+    });
+  }
+
+  get programId() {
+    return new PublicKey(this.cfg.getOrThrow('SEABED_PROGRAM_ID'));
   }
 
   get readClient() {
-    return PreAuthorizedDebitReadClientImpl[this.net](this.connection);
+    return PreAuthorizedDebitReadClientImpl.custom(
+      this.connection,
+      this.programId,
+    );
   }
 
   get ixFactory() {
-    return InstructionFactoryImpl[this.net](this.connection);
+    return InstructionFactoryImpl.custom(this.connection, this.programId);
   }
 
   get txFactory() {
-    return TransactionFactoryImpl[this.net](this.connection);
+    return TransactionFactoryImpl.custom(this.connection, this.programId);
   }
 }
