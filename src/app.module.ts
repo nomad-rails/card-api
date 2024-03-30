@@ -5,6 +5,7 @@ import { ApiModule } from './api/api.module';
 import { JwtModule } from './jwt/jwt.module';
 import { CryptoModule } from './crypto/crypto.module';
 import { BridgecardModule } from './bridgecard/bridgecard.module';
+import { SeabedLabsModule } from './seabed-labs/seabed-labs.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { BridgecardModule } from './bridgecard/bridgecard.module';
     JwtModule,
     CryptoModule,
     BridgecardModule,
+    SeabedLabsModule,
   ],
 })
 export class AppModule {}
