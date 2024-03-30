@@ -31,6 +31,7 @@ async function bootstrapSwagger(
     .addTag('Auth', 'Authentication operations')
     .addTag('Cardholder', 'Cardholder operations')
     .addTag('Card', 'Card operations')
+    .addTag('Webhook', 'Webhook operations')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup(path, app, document, {
