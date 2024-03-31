@@ -47,6 +47,7 @@ async function bootstrap() {
   nest = app;
 
   app.enableVersioning();
+  app.enableCors({ origin: '*' });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
