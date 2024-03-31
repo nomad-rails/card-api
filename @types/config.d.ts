@@ -10,10 +10,7 @@ type Config = {
   BRIDGECARD_AT: string;
   BRIDGECARD_SK: string;
   BRIDGECARD_WHSEC: string;
-  SIWS_DOMAIN: string;
-  SIWS_ORIGIN: string;
-  SIWS_VERSION: string;
-  SIWS_CHAIN_ID: string;
+  DYNAMIC_AUTH_PK: string;
   RPC_URL: string;
   USDC_MINT: string;
   SEABED_PROGRAM_ID: string;

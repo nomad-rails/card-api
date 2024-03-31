@@ -1,3 +1,4 @@
+import * as base58 from 'bs58';
 import { Request } from 'express';
 import {
   CanActivate,
@@ -12,14 +13,52 @@ import {
 } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PrismaService } from '@/prisma/prisma.service';
-import { CryptoService } from '@/crypto/crypto.service';
 import { UserEntity } from '@lib/common/entities/user.entity';
 
 interface Payload {
+  kid: string;
+  aud: string;
+  iss: string;
   sub: string;
+  sid: string;
+  email: string;
+  environment_id: string;
+  family_name: string;
+  given_name: string;
+  lists: any[];
+  missing_fields: any[];
+  scope: string;
+  verified_credentials: (
+    | {
+        address: string;
+        chain: string;
+        id: string;
+        name_service: Record<string, any>;
+        public_identifier: string;
+        wallet_name: string;
+        wallet_provider: string;
+        wallet_properties: {
+          turnkeySubOrganizationId: string;
+          turnkeyHDWalletId: string;
+          isAuthenticatorAttached: boolean;
+          turnkeyUserId: string;
+        };
+        format: 'blockchain';
+      }
+    | {
+        email: string;
+        id: string;
+        public_identifier: string;
+        format: 'email';
+        embedded_wallet_id: any;
+      }
+  )[];
+  last_verified_credential_id: string;
+  first_visit: string;
+  last_visit: string;
+  new_user: boolean;
   iat: number;
   exp: number;
-  bot?: boolean;
 }
 
 @Injectable()
@@ -27,12 +66,13 @@ export class JwtAuthGuard extends PassportStrategy(Strategy) {
   constructor(
     private readonly cfg: ConfigService<Config>,
     private readonly prisma: PrismaService,
-    private readonly crypto: CryptoService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: cfg.getOrThrow('JWT_SECRET'),
+      secretOrKey: Buffer.from(
+        base58.decode(cfg.getOrThrow('DYNAMIC_AUTH_PK')),
+      ).toString(),
       passReqToCallback: true,
     });
   }
@@ -41,39 +81,16 @@ export class JwtAuthGuard extends PassportStrategy(Strategy) {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) throw new ForbiddenException('Invalid token');
 
-    const session = await this.prisma.session.findUnique({
-      where: {
-        token: this.crypto.hashString(token),
-        expiresAt: { gte: new Date() },
-        status: 'ACTIVE',
-      },
+    const address = payload.verified_credentials.find(
+      (cred) => cred.format === 'blockchain',
+    )?.public_identifier;
+    if (!address) throw new ForbiddenException('Invalid token');
+
+    const user = await this.prisma.user.upsert({
+      where: { address },
+      create: { address },
+      update: {},
     });
-    if (!session) throw new ForbiddenException('Invalid token');
-
-    await this.prisma.session.update({
-      where: { id: session.id },
-      data: { lastSeenAt: new Date() },
-    });
-
-    const uid = payload.sub;
-    if (!uid) throw new ForbiddenException('Invalid token');
-
-    const user = await this.prisma.user.findFirst({
-      where: {
-        OR: [{ id: uid }, { address: uid }],
-      },
-    });
-
-    if (!user) throw new ForbiddenException('Invalid token');
-    await this.prisma.session.updateMany({
-      where: {
-        user: { id: user.id },
-        expiresAt: { lt: new Date() },
-        status: 'ACTIVE',
-      },
-      data: { status: 'EXPIRED' },
-    });
-
     return new UserEntity(user);
   }
 }
